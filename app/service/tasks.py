@@ -13,7 +13,7 @@ class TaskService:
 
     def list_tasks(self) -> list[TaskWithCategorySchema]: 
         tasks_orm = self.task_repository.get_all()
-        print
+       
         return [TaskWithCategorySchema.model_validate(task) for task in tasks_orm]
 
     def create_task(self, title: str, category_id: str) -> TaskSchema:
@@ -29,6 +29,7 @@ class TaskService:
         delete_task = self.task_repository.get_by_id(task_id)
         if not delete_task:
             raise HTTPException(404, f'Task id {task_id} not found')
+        self.db.commit()
         return self.task_repository.delete(delete_task)
 
     def update_task(self, task_id: str, task_update: TaskUpdateSchema) -> TaskSchema: 
@@ -38,7 +39,7 @@ class TaskService:
         if not task_for_update:
                  raise HTTPException(404, f'Task id {task_id} not found')
         
-        if task_update.title:
+        if task_update.title is not None:
             task_for_update.title = task_update.title
         if task_update.completed is not None:
             task_for_update.completed = task_update.completed
