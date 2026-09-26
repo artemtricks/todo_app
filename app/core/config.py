@@ -15,9 +15,9 @@ class Settings:
 
 def get_setting():
     return Settings(
-            DATABASE_URL = "postgresql+psycopg://postgres:postgres@localhost:5432/todo",
+            DATABASE_URL = "postgresql+psycopg://postgres:admin@postgres:5432/postgres",
             allow_origins_url = ["http://localhost:3000"],
-            redis_url="redis://localhost:6379/0",
+            redis_url="redis://redis:6379/0",
             cache_ttl_seconds=3600,
             cache_tasks_key="cache:tasks_list"
         )

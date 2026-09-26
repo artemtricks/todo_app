@@ -1,0 +1,22 @@
+services:
+  todo:
+    build: .
+    ports:
+      - "8080:8000"
+    depends_on:
+      - postgres
+
+  postgres: 
+    image: postgres:18-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    depends_on:
+      - postgres
+
